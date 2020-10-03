@@ -4,14 +4,14 @@
 
 <template>
   <div v-if="me && me.activeCart" class="your-order-area">
-    <h3>{{ $t('orderSummary') }}</h3>
+    <h3>{{ $t("orderSummary") }}</h3>
     <div class="your-order-wrap gray-bg-4">
       <div class="your-order-info-wrap">
         <div class="your-order-info">
           <ul>
             <li class="bold-text">
-              {{ $t('product') }}
-              <span>{{ $t('total') }}</span>
+              {{ $t("product") }}
+              <span>{{ $t("total") }}</span>
             </li>
           </ul>
         </div>
@@ -28,34 +28,36 @@
               </h5>
             </div>
             <div class="single-order-price">
-              <span><BasePrice :price="totalPrice(lineItem)"/></span>
+              <span><BasePrice :price="totalPrice(lineItem)" /></span>
             </div>
           </div>
         </div>
         <div class="your-order-info order-subtotal">
           <ul>
             <li>
-              <b class="bold-text">{{ $t('subtotal') }}</b>
-              <span><BasePrice :price="subtotal"/></span>
+              <b class="bold-text">{{ $t("subtotal") }}</b>
+              <span><BasePrice :price="subtotal" /></span>
             </li>
           </ul>
         </div>
       </div>
       <div class="checkout-shipping-content">
         <div class="shipping-content-left">
-          <span class="bold-text">{{ $t('shipping') }}</span>
+          <span class="bold-text">{{ $t("shipping") }}</span>
         </div>
         <ShippingMethod
           @updateShipping="updateShippingMethod"
           data-test="shipping-methods"
         />
       </div>
-      <PaymentMethod data-test="payment-methods"/>
+      <PaymentMethod data-test="payment-methods" />
       <div class="your-order-info order-total">
         <ul>
           <li class="bold-text">
-            {{ $t('total') }}
-            <span><BasePrice :price="{value:me.activeCart.totalPrice}"/></span>
+            {{ $t("total") }}
+            <span
+              ><BasePrice :price="{ value: me.activeCart.totalPrice }"
+            /></span>
           </li>
         </ul>
       </div>
@@ -78,12 +80,8 @@
       </div> -->
     </div>
     <div class="Place-order mt-30">
-      <a
-        @click.prevent="placeOrder"
-        data-test="place-order"
-        href
-      >
-        {{ $t('placeOrder') }}
+      <a @click.prevent="placeOrder" data-test="place-order" href>
+        {{ $t("placeOrder") }}
       </a>
     </div>
     <div v-if="showError" class="error-message mt-10">
