@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import Breadcrumb from '@/components/common/Breadcrumb/index.vue';
+import Breadcrumb from '@/components/common/Breadcrumb/Breadcrumb.vue';
 
 describe('Breadcrumb/index.vue', () => {
   const someCategory = {
@@ -17,10 +17,10 @@ describe('Breadcrumb/index.vue', () => {
   });
 
   it('renders a vue instance', () => {
-    expect(shallowMount(Breadcrumb, options).isVueInstance()).toBeTruthy();
+    expect(shallowMount(Breadcrumb, options).vm).toBeTruthy();
   });
 
-  it('obtains category information', () => {
+  it('obtains category information', async () => {
     const wrapper = shallowMount(Breadcrumb, options);
     wrapper.setData({
       categories: {
@@ -34,6 +34,7 @@ describe('Breadcrumb/index.vue', () => {
         results: [someCategory],
       },
     });
-    expect(wrapper.vm.category).toEqual(someCategory);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.currentCategory).toEqual(someCategory);
   });
 });

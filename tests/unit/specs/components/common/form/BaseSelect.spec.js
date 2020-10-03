@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import BaseSelect from '@/components/common/form/BaseSelect/index.vue';
+import BaseSelect from '@/components/common/form/BaseSelect/BaseSelect.vue';
 
 describe('BaseSelect/index.vue', () => {
   let options;
@@ -16,7 +16,7 @@ describe('BaseSelect/index.vue', () => {
   });
 
   it('renders a vue instance', () => {
-    expect(shallowMount(BaseSelect, options).isVueInstance()).toBeTruthy();
+    expect(shallowMount(BaseSelect, options).vm).toBeTruthy();
   });
 
   it('updates model with prop value', () => {

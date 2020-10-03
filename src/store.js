@@ -11,13 +11,14 @@ const SET_CURRENCY = 'SET_CURRENCY';
 const SET_AUTHENTICATED = 'SET_AUTHENTICATED';
 const SET_TOKEN_INFO = 'SET_TOKEN_INFO';
 const SET_MINI_CART_OPEN = 'SET_MINI_CART_OPEN';
+const SET_CART_ITEMS = 'SET_CART_ITEMS';
 
 const availableLocales = Object.keys(sunriseConfig.languages);
 const availableCountries = Object.keys(sunriseConfig.countries);
 
 export const fallbackLocale = availableLocales[0];
 const fallbackCountry = availableCountries[0];
-const obtainCurrency = country => sunriseConfig.formats.number[country]?.currency?.currency;
+const obtainCurrency = (country) => sunriseConfig.formats.number[country]?.currency?.currency;
 
 const clearMiniCartTimeout = (state) => {
   if (state.miniCartCloseTimer !== 0) {
@@ -43,6 +44,7 @@ export default new Vuex.Store({
     authenticated: false,
     miniCartOpen: false,
     miniCartCloseTimer: 0,
+    cartItems: 0,
   },
 
   actions: {
@@ -82,6 +84,14 @@ export default new Vuex.Store({
         commit(SET_MINI_CART_OPEN, false);
       }
     },
+
+    toggleMiniCart: ({ commit, state }) => {
+      commit(SET_MINI_CART_OPEN, !state.miniCartOpen);
+    },
+
+    setCartItems: ({ commit }, cartItems) => {
+      commit(SET_CART_ITEMS, cartItems);
+    },
   },
 
   mutations: {
@@ -107,6 +117,9 @@ export default new Vuex.Store({
 
     [SET_MINI_CART_OPEN](state, miniCartOpen) {
       state.miniCartOpen = miniCartOpen;
+    },
+    [SET_CART_ITEMS](state, cartItems) {
+      state.cartItems = cartItems;
     },
   },
 });

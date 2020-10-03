@@ -1,6 +1,6 @@
 import Vuelidate from 'vuelidate';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import BaseAddressForm from '@/components/checkout/BaseAddressForm/index.vue';
+import BaseAddressForm from '@/components/checkout/BaseAddressForm/BaseAddressForm.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuelidate);
@@ -17,7 +17,7 @@ describe('BaseAddressForm/index.vue', () => {
   });
 
   it('renders a vue instance', () => {
-    expect(shallowMount(BaseAddressForm, options).isVueInstance()).toBeTruthy();
+    expect(shallowMount(BaseAddressForm, options).vm).toBeTruthy();
   });
 
   it('does not set form when no shipping address defined in cart', () => {

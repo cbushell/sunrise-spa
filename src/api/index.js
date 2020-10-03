@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 export { default as products } from './products';
+export { default as productTypes } from './productTypes';
 export const onlyLastRequestedPromise = ((promiseIds) => {
   const whenResolve = (promise, id, promiseID, resolveValue) => {
     if (promise !== undefined) {
@@ -14,8 +15,8 @@ export const onlyLastRequestedPromise = ((promiseIds) => {
         : Promise.reject('A newer request was made.');
     }
     return (function last(currentPromiseID) {
-      return promise.then(result => whenResolve(undefined, id, currentPromiseID, result));
+      return promise.then((result) => whenResolve(undefined, id, currentPromiseID, result));
     }(promiseIds[id]));
   };
-  return (id = 'general') => promise => whenResolve(promise, id);
+  return (id = 'general') => (promise) => whenResolve(promise, id);
 })({});

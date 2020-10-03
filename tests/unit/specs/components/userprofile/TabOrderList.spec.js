@@ -1,6 +1,6 @@
 import VueI18n from 'vue-i18n';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import TabOrderList from '@/components/useraccount/myorders/TabOrderList/index.vue';
+import TabOrderList from '@/components/useraccount/TabOrderList/TabOrderList.vue';
 
 const localVue = createLocalVue();
 localVue.use(VueI18n);
@@ -19,6 +19,9 @@ describe('TabOrderList/index.vue', () => {
         messages: {
           de: {
             Ready: 'Bereit',
+            orders: 'orders',
+            emptyOrders: 'emptyOrders',
+            DoesntExist: 'DoesntExist',
           },
         },
       }),
@@ -26,7 +29,7 @@ describe('TabOrderList/index.vue', () => {
   });
 
   it('renders a vue instance', () => {
-    expect(shallowMount(TabOrderList, options).isVueInstance()).toBeTruthy();
+    expect(shallowMount(TabOrderList, options).vm).toBeTruthy();
   });
 
   it('shows the right status in all cases', () => {

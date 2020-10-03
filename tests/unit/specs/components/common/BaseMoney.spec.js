@@ -1,6 +1,6 @@
 import Vuex from 'vuex';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import BaseMoney from '@/components/common/BaseMoney/index.vue';
+import BaseMoney from '@/components/common/BaseMoney/BaseMoney.vue';
 
 const localVue = createLocalVue();
 
@@ -22,13 +22,14 @@ describe('BaseMoney/index.vue', () => {
         money: {
           centAmount: 1275,
           fractionDigits: 2,
+          currencyCode: 'EUR',
         },
       },
     };
   });
 
   it('renders a vue instance', () => {
-    expect(shallowMount(BaseMoney, options).isVueInstance()).toBeTruthy();
+    expect(shallowMount(BaseMoney, options).vm).toBeTruthy();
   });
 
   it('calls number formatting method with proper arguments', () => {

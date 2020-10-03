@@ -37,67 +37,61 @@ Cypress.Commands.add('login', (customer) => {
   cy.get('[data-test=login-form-password]').type(customer.password);
   cy.get('[data-test=login-form-submit]').click();
 });
+Cypress.Commands.add('logout', () => {
+  cy.visit('/user/dashboard');
+  cy.get('[data-test=sign-out]').click();
+});
 
-Cypress.Commands.add('checkCustomerIsLoggedIn', (customer) => {
-  cy.get('[data-test=user-profile-name]').should('contain', `${customer.firstName} ${customer.lastName}`);
-  cy.get('[data-test=user-profile-email]').should('contain', customer.email);
-
+Cypress.Commands.add('checkCustomerIsLoggedIn', () => {
   cy.get('[data-test=login-button]').should('not.exist');
-  cy.get('[data-test=logout-button]').should('exist');
-  cy.get('[data-test=login-info-name]').should('contain', customer.firstName);
+  cy.get('[data-test=login-info-name]').should('exist');
 });
 
 Cypress.Commands.add('changeLanguage', (language) => {
-  cy.get('[data-test=location-selector-open-button]').click();
-  cy.get('span[data-test=language-selector-dropdown]')
-    .click()
-    .parent()
+  cy.get('[data-test=language-selector-dropdown]')
+    .find('a')
     .contains(language)
-    .click();
+    .click({ force: true });
 });
 
 Cypress.Commands.add('changeCountry', (country) => {
-  cy.get('[data-test=location-selector-open-button]').click();
-  cy.get('span[data-test=country-selector-dropdown]')
-    .click()
-    .parent()
+  cy.get('[data-test=country-selector-dropdown]')
+    .find('a')
     .contains(country)
-    .click();
+    .click({ force: true });
 });
 
-Cypress.Commands.add('createCustomer', draft => cy.wrap(clientPromise
-  .then(client => mutation.deleteCustomer(client, draft.email)
+Cypress.Commands.add('createCustomer', (draft) => cy.wrap(clientPromise
+  .then((client) => mutation.deleteCustomer(client, draft.email)
     .then(() => mutation.createCustomer(client, draft)))));
 
 Cypress.Commands.add('deleteCustomer', ({ email }) => cy.wrap(clientPromise
-  .then(client => mutation.deleteCustomer(client, email))));
+  .then((client) => mutation.deleteCustomer(client, email))));
 
 Cypress.Commands.add('addLineItem', (url, quantity) => {
   cy.visit(url);
-  cy.get('span[data-test=add-to-cart-form-quantity-dropdown]')
-    .click({ force: true })
-    .parent()
-    .contains(`${quantity}`)
-    .click({ force: true });
-  cy.get('[data-test=add-to-cart-form-button]').click({ force: true });
+  cy.get('input[data-test=add-to-cart-amount]')
+    .clear()
+    .type(quantity);
+  cy.get('[data-test=add-to-cart-button]').click({ force: true });
   cy.get('[data-test=mini-cart-content]').should('be.visible');
 });
 
 Cypress.Commands.add('addDiscountCode', (cartDiscountDraft, code) => cy.wrap(clientPromise
-  .then(client => mutation.deleteDiscountCode(client, code)
+  .then((client) => mutation.deleteDiscountCode(client, code)
     .then(() => mutation.createDiscountCode(client, cartDiscountDraft, code)))));
 
 Cypress.Commands.add('createOrder', (cartDraft, orderDraft) => cy.wrap(clientPromise
-  .then(client => mutation.deleteOrder(client, orderDraft.orderNumber)
+  .then((client) => mutation.deleteOrder(client, orderDraft.orderNumber)
     .then(() => query.customerByEmail(client, cartDraft.customerEmail)
       .then((customer) => {
-        const draft = Object.assign({}, cartDraft, { customerId: customer.id });
+        const draft = { ...cartDraft, customerId: customer.id };
         return mutation.createCart(client, draft);
       }).then((cart) => {
-        const draft = Object.assign({}, orderDraft, { id: cart.id, version: cart.version });
+        const draft = { ...orderDraft, id: cart.id, version: cart.version };
         return mutation.createOrder(client, draft);
       })))));
 
-Cypress.Commands.add('addProduct', draft => cy.wrap(clientPromise
-  .then(client => mutation.deleteProduct(client, draft.key)
+Cypress.Commands.add('addProduct', (draft) => cy.wrap(clientPromise
+  .then((client) => mutation.deleteProduct(client, draft.key)
     .then(() => mutation.createProduct(client, draft)))));

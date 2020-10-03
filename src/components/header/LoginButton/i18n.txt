@@ -1,6 +1,0 @@
-en:
-  signOut: "Log Out"
-  signIn: "Sign In"
-de:
-  signOut: "Log Out"
-  signIn: "Log In"

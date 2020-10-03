@@ -4,33 +4,25 @@ import gql from 'graphql-tag';
 import store from './store';
 import apollo from './apollo';
 import config from '../sunrise.config';
-import TheHeader from './components/header/TheHeader/index.vue';
-import TheFooter from './components/footer/TheFooter/index.vue';
-import TheCheckoutHeader from './components/header/TheCheckoutHeader/index.vue';
-import TheCheckoutFooter from './components/footer/TheCheckoutFooter/index.vue';
-import PageHome from './components/home/PageHome/index.vue';
-import PageProductOverview from './components/productoverview/PageProductOverview/index.vue';
-import PageLogin from './components/login/PageLogin/index.vue';
-import ForgotPassword from './components/login/ForgotPassword/index.vue';
-import ResetPassword from './components/login/ResetPassword/index.vue';
-import PageUserAccount from './components/useraccount/PageUserAccount/index.vue';
-import PageNotFound from './components/common/PageNotFound/index.vue';
-import PageProductDetail from './components/productdetail/PageProductDetail/index.vue';
-import PageCartDetail from './components/cartdetail/PageCartDetail/index.vue';
-import TabPersonalDetails from './components/useraccount/userdetail/TabPersonalDetails/index.vue';
-import TabOrderList from './components/useraccount/myorders/TabOrderList/index.vue';
-import TabOrderDetail from './components/useraccount/myorders/TabOrderDetail/index.vue';
-import TabChangePassword from './components/useraccount/changepassword/TabChangePassword/index.vue';
-import PageCheckout from './components/checkout/PageCheckout/index.vue';
-import StepWithOverview from './components/checkout/StepWithOverview/index.vue';
-import StepShippingAddressForm from './components/checkout/StepShippingAddressForm/index.vue';
-import StepBillingAddressForm from './components/checkout/StepBillingAddressForm/index.vue';
-import StepShippingMethodForm from './components/checkout/StepShippingMethodForm/index.vue';
-import StepPaymentMethodForm from './components/checkout/StepPaymentMethodForm/index.vue';
-import StepPlaceOrderForm from './components/checkout/StepPlaceOrderForm/index.vue';
+import TheHeader from './components/header/TheHeader/TheHeader.vue';
+import TheFooter from './components/footer/TheFooter/TheFooter.vue';
+import PageHome from './components/home/PageHome/PageHome.vue';
+import PageProductOverview from './components/productoverview/PageProductOverview/PageProductOverview.vue';
+import PageLogin from './components/login/PageLogin/PageLogin.vue';
+import ForgotPassword from './components/login/ForgotPassword/ForgotPassword.vue';
+import ResetPassword from './components/login/ResetPassword/ResetPassword.vue';
+import PageUserAccount from './components/useraccount/PageUserAccount/PageUserAccount.vue';
+import PageNotFound from './components/common/PageNotFound/PageNotFound.vue';
+import PageProductDetail from './components/productdetail/PageProductDetail/PageProductDetail.vue';
+import PageCartDetail from './components/cartdetail/PageCartDetail/PageCartDetail.vue';
+import TabAccountDetails from './components/useraccount/TabAccountDetails/TabAccountDetails.vue';
+import TabOrderList from './components/useraccount/TabOrderList/TabOrderList.vue';
+import TabOrderDetail from './components/useraccount/TabOrderDetail/TabOrderDetail.vue';
+import TabChangePassword from './components/useraccount/TabChangePassword/TabChangePassword.vue';
+import TabDashboard from './components/useraccount/TabDashboard/TabDashboard.vue';
+import PageCheckout from './components/checkout/PageCheckout/PageCheckout.vue';
 import { pageFromRoute } from './components/common/shared';
-import Root from './components/root/index.vue';
-
+import Root from './components/root/root.vue';
 
 Vue.use(Router);
 
@@ -43,7 +35,11 @@ const router = new Router({
   scrollBehavior: () => ({ x: 0, y: 0 }),
   routes: [
     {
-      path: `/:locale(${Object.keys(config.languages).join('|')})?`,
+      path: `/:country(${
+        Object.keys(config.countries).join('|')
+      })?/:locale(${
+        Object.keys(config.languages).join('|')
+      })?`,
       component: Root,
       children: [
         {
@@ -55,10 +51,15 @@ const router = new Router({
             footer: TheFooter,
           },
         },
-        {
-          path: 'stores',
-          name: 'stores',
-        },
+        // {
+        //   path: 'stores',
+        //   name: 'stores',
+        //   components: {
+        //     default: StoreLocator,
+        //     header: TheHeader,
+        //     footer: TheFooter,
+        //   },
+        // },
         {
           path: 'login',
           name: 'login',
@@ -92,10 +93,10 @@ const router = new Router({
           components: {
             default: PageProductOverview,
             header: TheHeader,
-            footer: TheFooter,
+            footer: null,
           },
           props: {
-            default: route => ({
+            default: (route) => ({
               ...pageFromRoute(route),
               categorySlug: route.params.categorySlug,
             }),
@@ -113,6 +114,9 @@ const router = new Router({
           },
           children: [
             {
+              path: 'dashboard', alias: '', name: 'user', component: TabDashboard,
+            },
+            {
               path: 'order/:id', name: 'order', component: TabOrderDetail,
             },
             {
@@ -121,7 +125,7 @@ const router = new Router({
               component: TabOrderList,
             },
             {
-              path: 'account', alias: '', name: 'user', component: TabPersonalDetails,
+              path: 'account', name: 'account', component: TabAccountDetails,
             },
             {
               path: 'changepassword', name: 'changepassword', component: TabChangePassword,
@@ -153,35 +157,13 @@ const router = new Router({
         },
         {
           path: 'checkout',
+          name: 'checkout',
           meta: { requiresCart },
           components: {
             default: PageCheckout,
-            header: TheCheckoutHeader,
-            footer: TheCheckoutFooter,
+            header: TheHeader,
+            footer: TheFooter,
           },
-          children: [
-            {
-              path: '',
-              component: StepWithOverview,
-              children: [
-                {
-                  path: 'payment', name: 'checkout-payment-method', component: StepPaymentMethodForm,
-                },
-                {
-                  path: 'shipping', name: 'checkout-shipping-method', component: StepShippingMethodForm,
-                },
-                {
-                  path: 'billing', name: 'checkout-billing-address', component: StepBillingAddressForm,
-                },
-                {
-                  path: 'address', alias: '', name: 'checkout', component: StepShippingAddressForm,
-                },
-              ],
-            },
-            {
-              path: 'order', name: 'checkout-order', component: StepPlaceOrderForm,
-            },
-          ],
         },
       ],
     },
@@ -197,7 +179,7 @@ const router = new Router({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const routeRequiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const routeRequiresAuth = to.matched.some((record) => record.meta.requiresAuth);
   if (routeRequiresAuth && !store.state.authenticated) {
     next({ name: 'login' });
   } else {
@@ -206,11 +188,11 @@ router.beforeEach(async (to, from, next) => {
 });
 
 router.beforeEach(async (to, from, next) => {
-  const routeRequiresCart = to.matched.some(record => record.meta.requiresCart);
+  const routeRequiresCart = to.matched.some((record) => record.meta.requiresCart);
   if (routeRequiresCart) {
     const hasCart = await apollo.defaultClient
       .query({ query: gql`{ me { activeCart { id } } }` })
-      .then(result => !!result.data.me.activeCart);
+      .then((result) => !!result.data.me.activeCart);
     if (!hasCart) next('/');
   }
   next();

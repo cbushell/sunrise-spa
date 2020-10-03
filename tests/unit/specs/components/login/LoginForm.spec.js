@@ -1,6 +1,6 @@
 import Vuelidate from 'vuelidate';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import LoginForm from '@/components/login/LoginForm/index.vue';
+import LoginForm from '@/components/login/LoginForm/LoginForm.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuelidate);
@@ -18,6 +18,6 @@ describe('LoginForm/index.vue', () => {
   });
 
   it('renders a vue instance', () => {
-    expect(shallowMount(LoginForm, options).isVueInstance()).toBeTruthy();
+    expect(shallowMount(LoginForm, options).vm).toBeTruthy();
   });
 });

@@ -1,6 +1,6 @@
 import Vuelidate from 'vuelidate';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import SignUpForm from '@/components/login/SignUpForm/index.vue';
+import SignUpForm from '@/components/login/SignUpForm/SignUpForm.vue';
 
 jest.mock('@/auth', () => ({ clientLogin: jest.fn() }));
 
@@ -14,11 +14,12 @@ describe('SignUpForm/index.vue', () => {
     options = {
       localVue,
       mocks: { $t: jest.fn() },
-      methods: { customerSignMeUp: jest.fn() },
+      // overriding methods is depricated
+      // methods: { customerSignMeUp: jest.fn() },
     };
   });
 
   it('renders a vue instance', () => {
-    expect(shallowMount(SignUpForm, options).isVueInstance()).toBeTruthy();
+    expect(shallowMount(SignUpForm, options).vm).toBeTruthy();
   });
 });
