@@ -28,16 +28,32 @@
              :src="displayedImageUrl(matchingVariant)"
              :alt="currentProduct.name"/>
       </div>
+
       <div class="pop-product-name">
         <span data-test="product-thumbnail-name"
               class="name-headline">
           {{ currentProduct.name }}
         </span>
       </div>
+
+      <div class="yotpo yotpo-main-widget"
+        :data-product-id="matchingVariant.sku"
+        :data-price="matchingVariant.price.value.centAmount"
+        :data-currency="matchingVariant.price.value.currencyCode"
+        :data-name="currentProduct.name.replace(/[\”]/g, '')"
+        :data-url="$router.resolve(productRoute(currentProduct.slug, matchingVariant.sku)).href"
+        :data-image-url="displayedImageUrl(matchingVariant)">
+      </div>
+
+      <div  class="yotpo bottomLine"
+            :data-yotpo-product-id="matchingVariant.sku">
+      </div>
+
       <div v-if="hasPrice"
            class="pop-item-price">
         <BasePrice :price="matchingVariant.price" />
       </div>
+
       <div class="pop-product-more-colors">
         <div v-if="hasMoreColors">
           {{ $t('moreColors')}} &nbsp;
