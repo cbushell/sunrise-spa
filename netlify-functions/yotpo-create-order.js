@@ -1,4 +1,4 @@
-import 'whatwg-fetch';
+const fetch = require('whatwg-fetch');
 
 const { YOTPO_CLIENT_ID } = process.env;
 const { YOTPO_CLIENT_SECRET } = process.env;

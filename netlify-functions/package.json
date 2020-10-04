@@ -1,0 +1,12 @@
+{
+  "name": "yotpo-create-order",
+  "version": "1.0.0",
+  "description": "",
+  "main": "yotpo-create-order.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "whatwg-fetch": "^3.4.0"
+  }
+}
