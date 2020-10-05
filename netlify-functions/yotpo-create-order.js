@@ -1,3 +1,4 @@
+require('xmlhttprequest');
 require('whatwg-fetch');
 
 const { YOTPO_CLIENT_ID } = process.env;
