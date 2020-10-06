@@ -1,4 +1,4 @@
-const axios = import('axios');
+const axios = require('axios');
 
 const { YOTPO_CLIENT_ID } = process.env;
 const { YOTPO_CLIENT_SECRET } = process.env;
