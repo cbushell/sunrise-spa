@@ -10,8 +10,10 @@ exports.handler = async () => axios.post(AUTH_API_ENDPOINT, {
   client_secret: YOTPO_CLIENT_SECRET,
   grant_type: 'client_credentials',
 })
-  .then((response) => response.data)
-  .then((json) => json)
+  .then((response) => ({
+    statusCode: 200,
+    body: response.data,
+  }))
   .catch((error) => ({
     statusCode: 422,
     body: `Oops! Something went wrong. ${error}`,
