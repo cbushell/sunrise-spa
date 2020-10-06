@@ -10,7 +10,7 @@ exports.handler = async () => axios.post(AUTH_API_ENDPOINT, {
   client_secret: YOTPO_CLIENT_SECRET,
   grant_type: 'client_credentials',
 })
-  .then((response) => response.json())
+  .then((response) => response)
   .then((json) => json)
   .catch((error) => ({
     statusCode: 422,
