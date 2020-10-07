@@ -12,7 +12,9 @@ exports.handler = async () => axios.post(AUTH_API_ENDPOINT, {
 })
   .then((response) => ({
     statusCode: 200,
-    body: response.data,
+    body: JSON.stringify({
+      body: response.data,
+    }),
   }))
   .catch((error) => ({
     statusCode: 422,
